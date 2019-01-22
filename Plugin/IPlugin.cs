@@ -1,5 +1,3 @@
-using System;
-
 namespace UpsettingBoy.CSharpPlugin
 {
     public interface IPlugin
