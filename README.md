@@ -9,42 +9,77 @@ using UpsettingBoy.CSharpPluginManager;
 
 public class DesiredClass
 {
-    public DesiredClass()
-    {
-        PluginManager manager = new PluginManager("<plugins_location>");
-        manager.EnablePlugins();
+    PluginManager _manager;
 
-        //For viewing plugins state use...
-        //manager.PluginsState; (is a SortedMap)
+    // your code...
+    
+    public async Task InitilizePluginManager()
+    {
+        _manager = new PluginManager(@"<plugins_path>");
+        var loadPlugins = _manager.LoadPluginsAsync();
+        // some stuff...
+        return await loadPlugins;
+    }
+}
+```
+
+Or if you don't want to do some stuff in ```InitizalizePlugins()```, directly:
+
+```csharp
+using UpsettingBoy.CSharpPluginManager;
+
+public class DesiredClass
+{
+    PluginManager _manager;
+
+    // your code...
+    
+    public async Task InitilizePluginManager()
+    {
+        _manager = new PluginManager(@"<plugins_path>");
+        return await _manager.LoadPluginsAsync();
     }
 }
 ```
 
 You also need to provide plugin developers an API for access your application features. 
 
-If you are concerned about the lack of UI support for plugin implementation, I am working on it (adding a new method on **_IPlugin_** interface).
+If you are concerned about the lack of UI support for plugin implementation, I am working on it (adding a new method on **_CSPlugin_** abstract class).
 
 ## Usage (plugin developer)
 In order to your plugin to be loaded by _**PluginManager**_ it has to implement
-**_IPlugin_** interface. You can add this interface by cloning and referencing 
-**_Plugin_** project into yours or by the **_Nuget_** package (added later on), then, simply implements the interface in **ONLY ONE CLASS** of your plugin (_OnEnable_ method will become the entry point of your plugin). An example class:
+**_CSPlugin_** class. You can add this class by cloning and referencing 
+**_CSPlugin_** project into yours or by the **_Nuget_** package (added later on), then, simply implements it in **ONLY ONE CLASS** of your plugin. An example class:
 
 ```csharp
 using UpsettingBoy.CSharpPlugin;
 
-public class MainClass : IPlugin
+namespace your.namaspace
 {
-    public string Name => "YourPluginName";
-    public string Author => "YourName";
-
-    public void OnEnable()
+    public class MainClass : CSPlugin
     {
-        //your plugin stuff.
+        public override string Name => "YourPluginName";
+        public override string Author => "YourName";
+
+        public override void OnValidated()
+        {
+            // Initilization of plugin's data structures.
+        }
+
+        public override void OnEnabled()
+        {
+            // Entry point of the plugin.
+        }
+
+        public override void OnDisabled()
+        {
+            // Called when the plugin gets disabled or disposed.
+        }
     }
 }
 ```
 
-In the future, it might be added new methods/properties into **_IPlugin_** so backwards compatibility migth be a problem. Watch out **_PluginManager_**
+In the future, it might be added new methods/properties into **_CSPlugin_** so backwards compatibility migth be a problem. Watch out **_PluginManager_**
 version given by the host application of your plugin.
 
 ## License
