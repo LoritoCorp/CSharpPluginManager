@@ -6,14 +6,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-using Microsoft.CSharp; //! Don't remove -> Compiler stuff
+using PlgSystem.Plugin;
+using PlgSystem.Manager.Enums;
+using PlgSystem.Manager.Models;
 
-using UpsettingBoy.CSharpPlugin;
-
-using UpsettingBoy.CSharpPluginManager.Enums;
-using UpsettingBoy.CSharpPluginManager.Models;
-
-namespace UpsettingBoy.CSharpPluginManager
+namespace PlgSystem.Manager
 {
 	/// <summary>
 	/// Plugin manager for classes that implements CSPlugin.

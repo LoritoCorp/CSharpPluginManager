@@ -1,6 +1,8 @@
+using Microsoft.Win32.SafeHandles;
 using System;
+using System.Runtime.InteropServices;
 
-namespace UpsettingBoy.CSharpPlugin
+namespace PlgSystem.Plugin
 {
 	/// <summary>
 	/// Extend this class to make an entry point for a plugin.
@@ -11,8 +13,7 @@ namespace UpsettingBoy.CSharpPlugin
 		public abstract string PluginName { get; }
 
 		private bool _disposed = false;
-
-		public CSPlugin() { }
+      SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
 		/// <summary>
 		/// Called at check time (before the plugin is enabled). Must be used for
@@ -34,11 +35,22 @@ namespace UpsettingBoy.CSharpPlugin
 
 		public void Dispose()
 		{
-			if (_disposed)
-				return;
-
-			OnDisabled();
-			_disposed = true;
+         Dispose(true);
+         GC.SuppressFinalize(this);
 		}
-	}
+      // Protected implementation of Dispose pattern.
+      protected virtual void Dispose(bool disposing)
+      {
+         if (_disposed)
+            return;
+
+         if (disposing)
+         {
+            handle.Dispose();
+            OnDisabled();
+         }
+
+         _disposed = true;
+      }
+   }
 }

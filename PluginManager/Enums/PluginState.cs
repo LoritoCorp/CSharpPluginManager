@@ -1,4 +1,4 @@
-namespace UpsettingBoy.CSharpPluginManager.Enums
+namespace PlgSystem.Manager.Enums
 {
 	public enum PluginState
 	{

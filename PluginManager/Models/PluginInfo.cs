@@ -1,7 +1,7 @@
-using UpsettingBoy.CSharpPlugin;
-using UpsettingBoy.CSharpPluginManager.Enums;
+using PlgSystem.Plugin;
+using PlgSystem.Manager.Enums;
 
-namespace UpsettingBoy.CSharpPluginManager.Models
+namespace PlgSystem.Manager.Models
 {
 	public class PluginInfo
 	{
@@ -16,8 +16,7 @@ namespace UpsettingBoy.CSharpPluginManager.Models
 			Message = msg;
 		}
 
-		public PluginInfo((CSPlugin, PluginState, string) tuple) :
-				this(tuple.Item1, tuple.Item2, tuple.Item3)
+		public PluginInfo((CSPlugin, PluginState, string) tuple) : this(tuple.Item1, tuple.Item2, tuple.Item3)
 		{ }
 	}
 }
